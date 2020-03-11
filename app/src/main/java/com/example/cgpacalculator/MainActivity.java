@@ -1,13 +1,17 @@
 package com.example.cgpacalculator;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,13 +51,14 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
             text = "";
         } else if (text.equals ( "." )) {
             s.replace ( 0, s.length (), beforeText );
-            Toast.makeText ( this, "Please input valid CGPA", Toast.LENGTH_SHORT ).show ();
+            showToast ();
         } else if (cheakValid ( Float.parseFloat ( text ) )) {
             allId ( AppConstraint.FIX_BG );
         } else {
             if (!cheakValid ( Float.parseFloat ( text ) )) {
                 s.replace ( 0, s.length (), beforeText );
-                Toast.makeText ( this, "Please input valid CGPA", Toast.LENGTH_SHORT ).show ();
+                showToast ();
+
             } else {
 
             }
@@ -79,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
         Log.d ( "chk", "total:" + values.size () );
         if (values.size () > 0) {
             double sum = 0;
-            int sum_of_v = 0;
+            int sum_of_v=0;
             for (int i = 0; i < values.size (); i++) {
                 int v = 0;
                 if (i >= 0 && i <= 2) {
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
                 } else if (i == 7) {
                     v = 10;
                 }
-                sum_of_v = v + sum_of_v;
+                sum_of_v=v+sum_of_v;
                 sum = sum + (values.get ( i ) * v);
 
             }
@@ -165,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
                     cheakNull = 1;
                 }
             } else if (change.equals ( AppConstraint.CHANGEBG )) {
-                if (editTexts[i].getText ().toString ().isEmpty () || editTexts[i].getText ().equals ( "" )) {
+                if (editTexts[i].getText ().toString ().isEmpty ()||editTexts[i].getText ().equals ( "" )) {
                     editTexts[i].setBackgroundResource ( R.drawable.edit_bg );
                 } else {
                     editTexts[i].setBackgroundResource ( R.drawable.result_shape );
@@ -179,6 +184,18 @@ public class MainActivity extends AppCompatActivity implements TextWatcher {
                 }
             }
         }
+    }
+    public void showToast(){
+        Toast toast = new Toast ( getApplicationContext () );
+//        toast.setGravity ( Gravity.CENTER,0,0 );
+
+        TextView textView= new TextView ( getApplicationContext () );
+        textView.setBackgroundResource ( R.drawable.toast_bg);
+        textView.setTextColor ( Color.BLACK );
+        textView.setText ( "Please enter valid CGPA !" );
+        textView.setPadding ( 16,8,16,8 );
+        toast.setView ( textView );
+        toast.show ();
     }
 
 }
